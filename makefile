@@ -2,7 +2,7 @@ WAYLAND=`pkg-config wayland-client --cflags --libs`
 CFLAGS?=-std=c11 -Wall -Werror -O3 -fvisibility=hidden
 
 hello_wayland: hello_wayland.c helpers.c helpers.h images.bin
-	$(CC) -o hello_wayland *.c $(WAYLAND) -lrt
+	$(CC) -g -Og -o hello_wayland *.c $(WAYLAND) -lrt
 
 images.bin: images/convert.py images/window.png images/fish.png
 	images/convert.py

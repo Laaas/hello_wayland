@@ -45,6 +45,17 @@ int main(void)
         CURSOR_HEIGHT, CURSOR_HOT_SPOT_X, CURSOR_HOT_SPOT_Y);
     hello_set_button_callback(surface, on_button);
 
+	struct wl_region *region = wl_compositor_create_region(compositor);
+	wl_region_add(region, 64, 64, 64, 64);
+	wl_region_add(region, 200, 64, 64, 64);
+
+	zwp_pointer_constraints_v1_confine_pointer(pointer_constraints,
+		wl_shell_surface_get_user_data(surface),
+		pointer,
+		region,
+		ZWP_POINTER_CONSTRAINTS_V1_LIFETIME_PERSISTENT
+	);
+
     while (!done) {
         if (wl_display_dispatch(display) < 0) {
             perror("Main loop error");

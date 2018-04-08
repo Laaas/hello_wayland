@@ -3,18 +3,20 @@
 #include <string.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include "pointer_constraints.h"
 
 #include "helpers.h"
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
-struct wl_compositor *compositor;
-struct wl_display *display;
-struct wl_pointer *pointer;
-struct wl_seat *seat;
-struct wl_shell *shell;
-struct wl_shm *shm;
+struct wl_compositor              *compositor;
+struct wl_display                 *display;
+struct wl_pointer                 *pointer;
+struct wl_seat                    *seat;
+struct wl_shell                   *shell;
+struct wl_shm                     *shm;
+struct zwp_pointer_constraints_v1 *pointer_constraints;
 
 static const struct wl_registry_listener registry_listener;
 static const struct wl_pointer_listener pointer_listener;
@@ -65,7 +67,10 @@ static void registry_global(void *data,
         pointer = wl_seat_get_pointer(seat);
         wl_pointer_add_listener(pointer, &pointer_listener,
             NULL);
-    }
+	} else if (strcmp(interface, zwp_pointer_constraints_v1_interface.name) == 0) {
+        pointer_constraints = wl_registry_bind(registry, name,
+            &zwp_pointer_constraints_v1_interface, min(version, 1));
+	}
 }
 
 static void registry_global_remove(void *a,

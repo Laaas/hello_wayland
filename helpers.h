@@ -2,13 +2,15 @@
 #define _HELPERS_H_
 
 #include <wayland-client.h>
+#include "pointer_constraints.h"
 
-extern struct wl_compositor *compositor;
-extern struct wl_display *display;
-extern struct wl_pointer *pointer;
-extern struct wl_seat *seat;
-extern struct wl_shell *shell;
-extern struct wl_shm *shm;
+extern struct wl_compositor              *compositor;
+extern struct wl_display                 *display;
+extern struct wl_pointer                 *pointer;
+extern struct wl_seat                    *seat;
+extern struct wl_shell                   *shell;
+extern struct wl_shm                     *shm;
+extern struct zwp_pointer_constraints_v1 *pointer_constraints;
 
 typedef uint32_t pixel;
 
